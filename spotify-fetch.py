@@ -3,6 +3,7 @@ from spotipy.oauth2 import SpotifyOAuth
 import os
 from dotenv import load_dotenv
 
+
 def get_scope():
     #get env variables
     client_id = os.getenv("SPOTIPY_CLIENT_ID")
