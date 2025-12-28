@@ -1,14 +1,27 @@
 import spotify_fetch
 import gemini_resp
+from flask import Flask
 
-with open("ai_prompt.txt", "r", encoding="utf-8") as file:
-    base_prompt = file.read()
-print("File read!")
+app = Flask(__name__)
 
-spotify_prompt = spotify_fetch.fetch_data()
-print("Spotify read!")
+@app.route("/")
+def setup():
+    return "<p>In main app</p>"
 
-data = gemini_resp.generate_response(base_prompt + spotify_prompt)
-print("Data received!")
+@app.route("/response")
+def get_roast():
+    with open("ai_prompt.txt", "r", encoding="utf-8") as file:
+        base_prompt = file.read()
+    print("File read!")
 
-print(data)
+    spotify_prompt = spotify_fetch.fetch_data()
+    print("Spotify read!")
+
+    data = gemini_resp.generate_response(base_prompt + spotify_prompt)
+    print("Data received!")
+
+    print(data)
+    return data
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5050)
