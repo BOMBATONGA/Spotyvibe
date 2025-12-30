@@ -1,12 +1,12 @@
 import spotify_fetch
 import gemini_resp
-from flask import Flask
+from flask import Flask, render_template, jsonify
 
 app = Flask(__name__)
 
 @app.route("/")
 def setup():
-    return "<p>In main app</p>"
+    return render_template("index.html")
 
 @app.route("/response")
 def get_roast():

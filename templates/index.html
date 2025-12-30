@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Spotyvibe</title>
+    </head>
+    <body>
+        <button id="roast_trigger">Roast me</button>
+        <div id="roast_output">Result here</div>
+    </body>
+    <script>
+        const roast_trigger = document.getElementById("roast_trigger");
+        const roast_output = document.getElementById("roast_output");
+        roast_trigger.addEventListener("click", () => {
+            roast_output.innerText = "Loading...";
+
+            fetch("/response")
+            .then(response => response.json())
+            .then(data => {
+                roast_output.innerText = data.final_burn;
+            })
+            
+        });
+    </script>
+</html>
