@@ -2,22 +2,200 @@
 <html>
     <head>
         <title>Spotyvibe</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        <style>
+            #paper{
+                font-size: 16px;
+                display: flex;
+                flex-direction: column;
+                background-color:azure;
+                width: 90%;
+                max-width: 500px;
+                min-height: 400px;
+                padding: 0px 16px;
+            }
+            #roast_trigger{
+                cursor:pointer;
+                color:#1a1a1a;
+                background-color:azure;
+                font-weight:bold;
+                font-family: 'Courier Prime', monospace;
+                font-size: 1.2rem;
+                border:1px solid black;
+                width: 128px;
+                padding: 4px;
+            }
+            body{
+                margin: 32px;
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                background-color: #1a1a1a;
+                gap: 1rem;
+                font-family: Courier Prime;
+                font-weight: 400;
+                font-style: normal;
+                overflow-x: hidden;
+            }
+            #folder_wrapper{
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                gap:0rem;
+                width:100%;
+                max-width: 500px;
+            }
+            #deck_ridge{
+                align-self: flex-start;
+                margin-left: 0.9%;
+            }
+            #deck_ridge img{
+                width: 100px;
+                height: 12px;
+                display: block;
+            }
+            #result_deck{
+                display:flex;
+                width: 92%;
+                max-width:500px;
+                align-items: center;
+                flex-direction: column;
+                background-color:#EAD8B7;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            .card{
+                display:flex; 
+                flex-direction: column; 
+                justify-content: space-between;
+                width:95%;
+                max-width:600px;
+                min-height: 300px;
+                border: 1px solid #EAD8B7;
+                background-color:antiquewhite;
+                padding: 10px;
+            }
+        </style>
     </head>
     <body>
-        <button id="roast_trigger">Roast me</button>
-        <div id="roast_output">Result here</div>
+        <h1 style="color:whitesmoke; font-weight: 200">Spotyvibe</h1>
+
+        <div id="paper">
+            <p>PrimaryCareGPT</p>
+            <h2>PSYCHOLOGICAL PROFILING CONSENT</h2>
+            <p style="text-indent: 20px">By "signing" the forum, the Patient consents to the usage of their spotify listening history for any ruthless roasts that the AI might produce.</p>
+            <p style="text-indent: 20px">The Patient also acknowledges that whatever the response might be, the AI is emotionless, and it does not have enough data to do an accurate profiling.</p>
+            </p>
+            <div style="display:flex; justify-content:space-between; padding-left: 32px; padding-right: 32px">
+                <button id="roast_trigger">Sign here</button>
+                <p id="roast_output" style="display: block; color:#1a1a1a; font-size: 16px; font-weight: bold"></p>
+                <p>__/__/____</p>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding-left: 32px; padding-right: 32px">
+                <p>Signature</p>
+                <p>Date</p>
+            </div>
+        </div>
+
+        <div id="folder_wrapper">
+            <div id="deck_ridge">
+                <img src="{{ url_for('static', filename='folderRidge.png') }}">
+            </div>
+            <div id="result_deck">
+                <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;" class="card" id="intro">
+                    <h1>PSYCHOLOGICAL PROFILE</h1>
+                    <h2 id="name" style="font-weight:lighter">Patient name: Bob</h2>
+                </div>
+                <div class="card" id="archetype" style="display:flex; flex-direction: column; justify-content: space-between;">
+                    <h2 id="arch">Archetype Title</h2>
+                    <p id="arch_exp">Explanation</p>
+                    <img style="opacity: 0.8; filter: contrast(1.2) brightness(0.9); mix-blend-mode: multiply; align-self: flex-end; width: 60px; height: 60px" src="{{ url_for('static', filename='stamp.png') }}">
+                </div>
+                <div class="card" id="redflag">
+                    <h2 id="flag">Percentage</h2>
+                    <p id="flag_exp">Explanation</p>
+                    <img style="opacity: 0.8; filter: contrast(1.2) brightness(0.9); mix-blend-mode: multiply; align-self: flex-end; width: 60px; height: 60px" src="{{ url_for('static', filename='stamp.png') }}">
+                </div>
+                <div class="card" id="vibeage">
+                    <h2 id="age">Age</h2>
+                    <p id="age_exp">Explanation</p>
+                    <img style="opacity: 0.8; filter: contrast(1.2) brightness(0.9); mix-blend-mode: multiply; align-self: flex-end; width: 60px; height: 60px" src="{{ url_for('static', filename='stamp.png') }}">
+                </div>
+                <div class="card" id="final">
+                    <h2>Final Burn</h2>
+                    <p id="final_burn" style="align-self: center; font-size: large; text-align: center;">Roast</p>
+                    <img style="opacity: 0.8; filter: contrast(1.2) brightness(0.9); mix-blend-mode: multiply; align-self: flex-end; width: 60px; height: 60px" src="{{ url_for('static', filename='stamp.png') }}">
+                </div>
+                <div class="card" id="share">
+                    <h2>Share + Socials</h2>
+                </div>
+            </div>
+        </div>
+        <p>Credits placeholder</p>
+
     </body>
     <script>
+        const deck = document.getElementById("folder_wrapper");
         const roast_trigger = document.getElementById("roast_trigger");
         const roast_output = document.getElementById("roast_output");
-        roast_trigger.addEventListener("click", () => {
-            roast_output.innerText = "Loading...";
 
+        const patient = document.getElementById("name");
+
+        const arch = document.getElementById("arch");
+        const arch_txt = document.getElementById("arch_exp");
+
+        const flag = document.getElementById("flag");
+        const flag_exp = document.getElementById("flag_exp");
+
+        const age = document.getElementById("age");
+        const age_exp = document.getElementById("age_exp");
+
+        const final_burn = document.getElementById("final_burn");
+
+        roast_trigger.addEventListener("click", () => {
+            roast_trigger.style.display = "none";
+            roast_output.style.display = "block";
+            roast_output.innerText = "Loading (max. 30 seconds)";
+
+            let messages = [
+                "Estimating hair color...",
+                "Aligning moon patterns...",
+                "Deep learning mode ON...",
+                "Falling asleep(long day)",
+                "AI Coffee break...",
+                "Locking in..."
+            ]
+            let i = 0;
+            const messageInterval = setInterval(() =>{
+                if(i < 6){
+                    roast_output.innerText = messages[i];
+                    i++;
+                }
+            }, 4000);
+            
             fetch("/response")
             .then(response => response.json())
             .then(data => {
-                roast_output.innerText = data.final_burn;
+                arch.innerText = data.archetype;
+                arch_exp.innerText = data.diagnosis;
+                flag.innerText = "Red flag percentage: " + data.red_flag_percent + "%";
+                flag_exp.innerText = data.red_flag_comment;
+                age.innerText = "Vibe age: " + data.vibe_age;
+                age_exp.innerText = data.vibe_age_comment;
+                final_burn.innerText = data.final_burn;
+                patient.innerText = "Patient name: " + data.patient_name;
+
+                paper.style.display = "none";
+                deck.style.display = "flex";
             })
+           .catch(error => {
+                roast_output.innerText = "Error: " + error.message;
+                roast_trigger.style.display = "block";
+            });
+
+            
             
         });
     </script>

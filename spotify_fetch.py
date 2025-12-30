@@ -34,13 +34,13 @@ def fetch_data():
 
     #get data from scope
     print("Fetching data...")
+    user_info = sp.current_user()
     saved_tracks_short = sp.current_user_top_tracks(limit=25, time_range="short_term")
     saved_tracks_medium = sp.current_user_top_tracks(limit=25, time_range="medium_term")
     saved_tracks_long = sp.current_user_top_tracks(limit=25, time_range="long_term")
     saved_artists_short = sp.current_user_top_artists(limit=25, time_range="short_term")
     saved_artists_medium = sp.current_user_top_artists(limit=25, time_range="medium_term")
     saved_artists_long = sp.current_user_top_artists(limit=25, time_range="long_term")
-    user_data = sp.current_user()
     print("Data attained!")
 
     #print recent save tracks + albums
@@ -64,4 +64,5 @@ def fetch_data():
     res += "\nTOP ARTISTS LONG TERM (1 YEAR)"
     for idx, artist in enumerate(saved_artists_long['items']):
         res += artist['name']
+    res += "\nUSERNAME: " + user_info.get('display_name')
     return res

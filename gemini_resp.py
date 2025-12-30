@@ -11,7 +11,7 @@ def get_auth():
 
 def generate_response(main_prompt):
     #Actual generation code (disabled to not waste tokens)
-    """load_dotenv(override=True)
+    load_dotenv(override=True)
     client = get_auth()
     
     print("Generating response...")
@@ -21,18 +21,5 @@ def generate_response(main_prompt):
 
     print("Unpackaging json...")
     clean_json = response.text.replace("```json", "").replace("```", "").strip()
-    return json.loads(clean_json)"""
-    
-    #Dummy data to save tokens
-    data = {
-        'stereotype_score': [4, 5, 6], 
-        'diagnosis': "This playlist screams 'I spend more time on my computer than in direct sunlight'...", 
-        'red_flag_percent': 85, 
-        'red_flag_comment': "That 85% isn't just a number; it's the exact percentage of your social interactions that end with someone politely excusing themselves.",
-        'vibe_block': 'Coworker', 
-        'vibe_block_comment': "You'd rather gnaw off your own limb than be caught listening to 'Today's Top Hits'.", 
-        'vibe_age': 17, 
-        'vibe_age_comment': "Seventeen is generous; your playlist reads like a freshman trying way too hard.", 
-        'final_burn': 'Congratulations, your Spotify Wrapped is a public service announcement for mandatory screen time limits.'
-    }
+    return json.loads(clean_json)
     return data
