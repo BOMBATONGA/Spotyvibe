@@ -16,15 +16,15 @@
                 min-height: 400px;
                 padding: 0px 16px;
             }
-            #roast_trigger{
+            .but{
                 cursor:pointer;
                 color:#1a1a1a;
                 background-color:azure;
                 font-weight:bold;
                 font-family: 'Courier Prime', monospace;
-                font-size: 1.2rem;
+                font-size: 1.1rem;
                 border:1px solid black;
-                width: 128px;
+                max-width: 128px;
                 padding: 4px;
             }
             body{
@@ -92,9 +92,9 @@
             <p style="text-indent: 20px">Disclaimer: Spotyvibe is a satirical entertainment project for educational purposes. It is not affiliated with Spotify or OpenAI/Google. No actual psychological analysis is performed. Don't take it personally.</p>
             </p>
             <div style="display:flex; justify-content:space-between; padding-left: 32px; padding-right: 32px">
-                <button id="roast_trigger">Sign here</button>
+                <button class="but" id="roast_trigger">Sign here</button>
                 <p id="roast_output" style="display: block; color:#1a1a1a; font-size: 16px; font-weight: bold"></p>
-                <p>__/__/____</p>
+                <button class="but" id="demo_trigger">Demo mode</button>
             </div>
             <div style="display:flex; justify-content:space-between; padding-left: 32px; padding-right: 32px">
                 <p>Signature</p>
@@ -133,7 +133,7 @@
                 </div>
             </div>
         </div>
-        <div id="credits" style="display: flex; justify-content: center; gap:2rem">
+        <div id="credits" style="display: flex; justify-content: center; gap:2rem; flex-wrap: wrap;">
             <a target="_blank" href="https://github.com/BOMBATONGA/Spotyvibe">SOURCE_CODE</a>
             <a target="_blank" href="https://www.linkedin.com/in/david-munteanu-835b16257/">CREATOR'S_LINKEDIN</a>
             <a target="_blank" href="https://buymeacoffee.com/bombatonga">BUY_ME_A_COFFEE</a>
@@ -143,6 +143,7 @@
     <script>
         const deck = document.getElementById("folder_wrapper");
         const roast_trigger = document.getElementById("roast_trigger");
+        const demo_trigger = document.getElementById("demo_trigger");
         const roast_output = document.getElementById("roast_output");
 
         const patient = document.getElementById("name");
@@ -158,8 +159,9 @@
 
         const final_burn = document.getElementById("final_burn");
 
-        roast_trigger.addEventListener("click", () => {
+        function roastEm(demo){
             roast_trigger.style.display = "none";
+            demo_trigger.style.display = "none";
             roast_output.style.display = "block";
             roast_output.innerText = "Loading (max. 30 seconds)";
 
@@ -178,8 +180,10 @@
                     i++;
                 }
             }, 4000);
+
+            const url = demo ? "/response?mode=demo" : "/response";
             
-            fetch("/response")
+            fetch(url)
             .then(response => response.json())
             .then(data => {
                 arch.innerText = data.archetype;
@@ -198,9 +202,9 @@
                 roast_output.innerText = "Error: " + error.message;
                 roast_trigger.style.display = "block";
             });
+        }
 
-            
-            
-        });
+        roast_trigger.addEventListener("click", () => roastEm(false));
+        demo_trigger.addEventListener("click", () => roastEm(true));
     </script>
 </html>
