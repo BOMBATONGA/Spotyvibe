@@ -13,6 +13,12 @@ It gives a ruthless personal profile based on the spotify listening history.
 * **Authentication:** Full OAuth2 flow using the `Spotipy` library.
 * **Intelligence:** Generative AI logic powered by `Google Gemini`.
 
+### Key Features
+* **Dynamic Data Fetching:** Pulls top tracks and artists across short, medium, and long-term durations.
+* **AI Sentiment Analysis:** Uses custom-engineered prompts to generate satirical archetypes and "roasts."
+* **Rate Limiting:** Implemented to manage API costs and prevent abuse.
+* **Demo Mode:** A hardcoded preview for users who want to see the UI without linking their Spotify account.
+
 ### !! A Note on the Spotify Restriction
 As of 2025, the Spotify Developer Policy restricts public quotas to registered entities. Therefore, this app is only usable in **"Demo Mode"**.
 
