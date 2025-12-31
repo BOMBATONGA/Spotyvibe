@@ -77,6 +77,9 @@
                 background-color:antiquewhite;
                 padding: 10px;
             }
+            a{
+                color:rgb(150, 112, 255)
+            }
         </style>
     </head>
     <body>
@@ -85,8 +88,8 @@
         <div id="paper">
             <p>PrimaryCareGPT</p>
             <h2>PSYCHOLOGICAL PROFILING CONSENT</h2>
-            <p style="text-indent: 20px">By "signing" the forum, the Patient consents to the usage of their spotify listening history for any ruthless roasts that the AI might produce.</p>
-            <p style="text-indent: 20px">The Patient also acknowledges that whatever the response might be, the AI is emotionless, and it does not have enough data to do an accurate profiling.</p>
+            <p style="text-indent: 20px">By "signing" the forum, the Patient admits that their taste in music is trash and that they will be roasted by a ruthless AI.</p>
+            <p style="text-indent: 20px">Disclaimer: Spotyvibe is a satirical entertainment project for educational purposes. It is not affiliated with Spotify or OpenAI/Google. No actual psychological analysis is performed. Don't take it personally.</p>
             </p>
             <div style="display:flex; justify-content:space-between; padding-left: 32px; padding-right: 32px">
                 <button id="roast_trigger">Sign here</button>
@@ -106,7 +109,7 @@
             <div id="result_deck">
                 <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;" class="card" id="intro">
                     <h1>PSYCHOLOGICAL PROFILE</h1>
-                    <h2 id="name" style="font-weight:lighter">Patient name: Bob</h2>
+                    <h2 id="name" style="font-weight:lighter; text-align: center;">Patient name: Bob</h2>
                 </div>
                 <div class="card" id="archetype" style="display:flex; flex-direction: column; justify-content: space-between;">
                     <h2 id="arch">Archetype Title</h2>
@@ -128,12 +131,13 @@
                     <p id="final_burn" style="align-self: center; font-size: large; text-align: center;">Roast</p>
                     <img style="opacity: 0.8; filter: contrast(1.2) brightness(0.9); mix-blend-mode: multiply; align-self: flex-end; width: 60px; height: 60px" src="{{ url_for('static', filename='stamp.png') }}">
                 </div>
-                <div class="card" id="share">
-                    <h2>Share + Socials</h2>
-                </div>
             </div>
         </div>
-        <p>Credits placeholder</p>
+        <div id="credits" style="display: flex; justify-content: center; gap:2rem">
+            <a target="_blank" href="https://github.com/BOMBATONGA/Spotyvibe">SOURCE_CODE</a>
+            <a target="_blank" href="https://www.linkedin.com/in/david-munteanu-835b16257/">CREATOR'S_LINKEDIN</a>
+            <a target="_blank" href="https://buymeacoffee.com/bombatonga">BUY_ME_A_COFFEE</a>
+        </div>
 
     </body>
     <script>
