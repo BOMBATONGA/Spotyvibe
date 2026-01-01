@@ -136,7 +136,7 @@
         </div>
         <div id="credits" style="display: flex; justify-content: center; gap:2rem; flex-wrap: wrap;">
             <a target="_blank" href="https://github.com/BOMBATONGA/Spotyvibe">SOURCE_CODE</a>
-            <a target="_blank" href="https://www.linkedin.com/in/david-munteanu-835b16257/">CREATOR'S_LINKEDIN</a>
+            <a target="_blank" href="https://www.linkedin.com/in/david-ioan-munteanu-835b16257/">CREATOR'S_LINKEDIN</a>
             <a target="_blank" href="https://buymeacoffee.com/bombatonga">BUY_ME_A_COFFEE</a>
         </div>
 
@@ -185,8 +185,17 @@
             const url = demo ? "/response?mode=demo" : "/response";
             
             fetch(url)
-            .then(response => response.json())
+            .then(response => {
+                if (response.status === 401) {
+                    return response.json().then(data => {
+                        window.location.href = data.auth_url;
+                    });
+                }
+                return response.json()
+            })
             .then(data => {
+                if (!data) return;
+                
                 arch.innerText = data.archetype;
                 arch_exp.innerText = data.diagnosis;
                 flag.innerText = "Red flag percentage: " + data.red_flag_percent + "%";

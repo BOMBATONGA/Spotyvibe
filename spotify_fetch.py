@@ -2,9 +2,10 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import os
 from dotenv import load_dotenv
+from flask import session
 
 
-def get_scope():
+def create_auth_manager():
     #get env variables
     client_id = os.getenv("SPOTIPY_CLIENT_ID")
     client_secret = os.getenv("SPOTIPY_CLIENT_SECRET")
@@ -16,20 +17,23 @@ def get_scope():
         client_secret=client_secret,
         redirect_uri=redirect_uri,
         scope="user-library-read user-top-read",
+        cache_handler=spotipy.cache_handler.FlaskSessionCacheHandler(session),
         show_dialog=True
     )
 
     #attain scope
-    sp = spotipy.Spotify(auth_manager=auth_manager)
-    return sp
+    return auth_manager
 
 def fetch_data():
-    #load env
-    load_dotenv(override=True)
     print("Initializing...")
+    auth_manager = create_auth_manager()
+
+    token_dict = auth_manager.validate_token(auth_manager.get_cached_token())
+    if not token_dict:
+        return None
 
     #get user scope
-    sp = get_scope()
+    sp = spotipy.Spotify(auth=token_dict['access_token'])
     print("Scope attained!")
 
     #get data from scope
