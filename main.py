@@ -16,12 +16,6 @@ limiter = Limiter(
 )
 app.secret_key = os.getenv("FLASK_KEY")
 
-@app.route("/login")
-def login():
-    auth_manager = spotify_fetch.create_auth_manager()
-    auth_url = auth_manager.get_authorize_url()
-    return redirect(auth_url)
-
 @app.route("/callback")
 def callback():
     auth_manager = spotify_fetch.create_auth_manager()
@@ -49,20 +43,23 @@ def get_roast():
             "final_burn": "Stop romanticizing your inability to maintain a stable text thread; it’s not a tragedy, it’s a symptom."
         })
     
-    
-
     try:
+        #try to read spotify data
         spotify_prompt = spotify_fetch.fetch_data()
         print("Spotify read!")
 
+        #check if user is already logged in and that the fetch worked
         if spotify_prompt == None:
             auth_manager = spotify_fetch.create_auth_manager()
+            #send back a 401 to be handled by client
             return jsonify({"auth_url": auth_manager.get_authorize_url()}), 401
         
+        #get prompt template
         with open("ai_prompt.txt", "r", encoding="utf-8") as file:
             base_prompt = file.read()
         print("File read!")
 
+        #generate response
         data = gemini_resp.generate_response(base_prompt + spotify_prompt)
         print("Data received!")
 

@@ -28,6 +28,7 @@ def fetch_data():
     print("Initializing...")
     auth_manager = create_auth_manager()
 
+    #check if user is already logged
     token_dict = auth_manager.validate_token(auth_manager.get_cached_token())
     if not token_dict:
         return None

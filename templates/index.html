@@ -187,6 +187,7 @@
             fetch(url)
             .then(response => {
                 if (response.status === 401) {
+                    
                     return response.json().then(data => {
                         window.location.href = data.auth_url;
                     });
@@ -195,7 +196,7 @@
             })
             .then(data => {
                 if (!data) return;
-                
+
                 arch.innerText = data.archetype;
                 arch_exp.innerText = data.diagnosis;
                 flag.innerText = "Red flag percentage: " + data.red_flag_percent + "%";
