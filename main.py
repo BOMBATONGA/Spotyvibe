@@ -67,8 +67,10 @@ def get_roast():
         print(f"Error: {e}")
         return jsonify({"archetype": "ERROR", "diagnosis": "The AI is currently unconscious. Try again later."}), 500
     
+    if data is None:
+        return {"error": "Unauthorized"}, 500
     print(data)
     return data
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5050)
+    app.run(debug=True, host='0.0.0.0', port=5050)

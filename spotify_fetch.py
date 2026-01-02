@@ -27,47 +27,57 @@ def create_auth_manager():
 def fetch_data():
     print("Initializing...")
     auth_manager = create_auth_manager()
+    try:
 
-    #check if user is already logged
-    token_dict = auth_manager.validate_token(auth_manager.get_cached_token())
-    if not token_dict:
+        #check if cache is occupied
+        token_info = auth_manager.get_cached_token()
+        if not token_info:
+            return None
+
+        #check if user is already logged
+        token_dict = auth_manager.validate_token(auth_manager.get_cached_token())
+        if not token_dict:
+            session.clear()
+            return None
+
+        #get user scope
+        sp = spotipy.Spotify(auth=token_dict['access_token'])
+        print("Scope attained!")
+
+        #get data from scope
+        print("Fetching data...")
+        user_info = sp.current_user()
+        saved_tracks_short = sp.current_user_top_tracks(limit=25, time_range="short_term")
+        saved_tracks_medium = sp.current_user_top_tracks(limit=25, time_range="medium_term")
+        saved_tracks_long = sp.current_user_top_tracks(limit=25, time_range="long_term")
+        saved_artists_short = sp.current_user_top_artists(limit=25, time_range="short_term")
+        saved_artists_medium = sp.current_user_top_artists(limit=25, time_range="medium_term")
+        saved_artists_long = sp.current_user_top_artists(limit=25, time_range="long_term")
+        print("Data attained!")
+
+        #print recent save tracks + albums
+        res = "\nUSER DATA:"
+        res += "\nTOP TRACKS SHORT TERM (4 WEEKS)"
+        for idx, track in enumerate(saved_tracks_short['items']):
+            res += track['artists'][0]['name'] + " - " + track['name']
+        res += "\nTOP TRACKS MEDIUM TERM (6 MONTHS)"
+        for idx, track in enumerate(saved_tracks_medium['items']):
+            res += track['artists'][0]['name'] + " - " + track['name']
+        res += "\nTOP TRACKS LONG TERM (1 YEAR)"
+        for idx, track in enumerate(saved_tracks_long['items']):
+            res += track['artists'][0]['name'] + " - " + track['name']
+
+        res += "\nTOP ARTISTS SHORT TERM (4 WEEKS)"
+        for idx, artist in enumerate(saved_artists_short['items']):
+            res += artist['name']
+        res += "\nTOP ARTISTS MEDIUM TERM (6 MONTHS)"
+        for idx, artist in enumerate(saved_artists_medium['items']):
+            res += artist['name']
+        res += "\nTOP ARTISTS LONG TERM (1 YEAR)"
+        for idx, artist in enumerate(saved_artists_long['items']):
+            res += artist['name']
+        res += "\nUSERNAME: " + user_info.get('display_name')
+        return res
+    except Exception as e:
+        session.clear()
         return None
-
-    #get user scope
-    sp = spotipy.Spotify(auth=token_dict['access_token'])
-    print("Scope attained!")
-
-    #get data from scope
-    print("Fetching data...")
-    user_info = sp.current_user()
-    saved_tracks_short = sp.current_user_top_tracks(limit=25, time_range="short_term")
-    saved_tracks_medium = sp.current_user_top_tracks(limit=25, time_range="medium_term")
-    saved_tracks_long = sp.current_user_top_tracks(limit=25, time_range="long_term")
-    saved_artists_short = sp.current_user_top_artists(limit=25, time_range="short_term")
-    saved_artists_medium = sp.current_user_top_artists(limit=25, time_range="medium_term")
-    saved_artists_long = sp.current_user_top_artists(limit=25, time_range="long_term")
-    print("Data attained!")
-
-    #print recent save tracks + albums
-    res = "\nUSER DATA:"
-    res += "\nTOP TRACKS SHORT TERM (4 WEEKS)"
-    for idx, track in enumerate(saved_tracks_short['items']):
-        res += track['artists'][0]['name'] + " - " + track['name']
-    res += "\nTOP TRACKS MEDIUM TERM (6 MONTHS)"
-    for idx, track in enumerate(saved_tracks_medium['items']):
-        res += track['artists'][0]['name'] + " - " + track['name']
-    res += "\nTOP TRACKS LONG TERM (1 YEAR)"
-    for idx, track in enumerate(saved_tracks_long['items']):
-        res += track['artists'][0]['name'] + " - " + track['name']
-
-    res += "\nTOP ARTISTS SHORT TERM (4 WEEKS)"
-    for idx, artist in enumerate(saved_artists_short['items']):
-        res += artist['name']
-    res += "\nTOP ARTISTS MEDIUM TERM (6 MONTHS)"
-    for idx, artist in enumerate(saved_artists_medium['items']):
-        res += artist['name']
-    res += "\nTOP ARTISTS LONG TERM (1 YEAR)"
-    for idx, artist in enumerate(saved_artists_long['items']):
-        res += artist['name']
-    res += "\nUSERNAME: " + user_info.get('display_name')
-    return res
