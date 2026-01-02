@@ -32,13 +32,13 @@ def fetch_data():
         #check if cache is occupied
         token_info = auth_manager.get_cached_token()
         if not token_info:
-            return None
+            return "RE-AUTH"
 
         #check if user is already logged
         token_dict = auth_manager.validate_token(auth_manager.get_cached_token())
         if not token_dict:
             session.clear()
-            return None
+            return "RE-AUTH"
 
         #get user scope
         sp = spotipy.Spotify(auth=token_dict['access_token'])
@@ -78,6 +78,11 @@ def fetch_data():
             res += artist['name']
         res += "\nUSERNAME: " + user_info.get('display_name')
         return res
+    except spotipy.exceptions.SpotifyException as e:
+        if e.http_status == 403:
+            return "WHITELIST"
+        else:
+            return "SERVER-ERROR"
     except Exception as e:
         session.clear()
-        return None
+        return "SERVER-ERROR"

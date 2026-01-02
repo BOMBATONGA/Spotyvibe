@@ -49,11 +49,17 @@ def get_roast():
         print("Spotify read!")
 
         #check if user is already logged in and that the fetch worked
-        if spotify_prompt == None:
+        if spotify_prompt == "RE-AUTH":
             auth_manager = spotify_fetch.create_auth_manager()
-            #send back a 401 to be handled by client
+            #send back a 401 to be handled by client(relogging)
             return jsonify({"auth_url": auth_manager.get_authorize_url()}), 401
-        
+        elif spotify_prompt == "WHITELIST":
+            #send back a 403 for whitelist announce
+            return jsonify({"error": "Whitelist required"}), 403
+        elif spotify_prompt == "SERVER-ERROR":
+            #send internal server error
+            return jsonify({"error": "Internal server error"}), 500
+    
         #get prompt template
         with open("ai_prompt.txt", "r", encoding="utf-8") as file:
             base_prompt = file.read()
@@ -65,10 +71,10 @@ def get_roast():
 
     except Exception as e:
         print(f"Error: {e}")
-        return jsonify({"archetype": "ERROR", "diagnosis": "The AI is currently unconscious. Try again later."}), 500
+        return jsonify({"error": "Gemini is unavailable."}), 500
     
     if data is None:
-        return {"error": "Unauthorized"}, 500
+        return {"error": "Internal server error."}, 500
     print(data)
     return data
 
