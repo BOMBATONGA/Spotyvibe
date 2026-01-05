@@ -83,6 +83,9 @@
                 background-color:antiquewhite;
                 padding: 10px;
             }
+            .card p{
+                font-size: clamp(16px, 4vw, 18px);
+            }
             a{
                 color:rgb(150, 112, 255)
             }
@@ -134,7 +137,7 @@
                 </div>
                 <div class="card" id="final">
                     <h2>Final Burn</h2>
-                    <p id="final_burn" style="align-self: center; font-size: large; text-align: center;">Roast</p>
+                    <p id="final_burn" style="align-self: center; font-size: clamp(16px, 4vw, 20px); text-align: center;">Roast</p>
                     <img style="opacity: 0.8; filter: contrast(1.2) brightness(0.9); mix-blend-mode: multiply; align-self: flex-end; width: 60px; height: 60px" src="{{ url_for('static', filename='stamp.png') }}">
                 </div>
             </div>
